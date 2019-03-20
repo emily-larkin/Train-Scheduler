@@ -9,6 +9,8 @@
   };
 
   firebase.initializeApp(config);
+  var database = firebase.database();
+
 
   // Initial Values
   var trainName = "";
@@ -28,7 +30,7 @@
       frequency = $("#frequency-input").val().trim();
 
       // Code for the push
-      dataRef.ref().push({
+      database.ref().push({
           trainName: trainName,
           destination: destination,
           time: time,
@@ -42,26 +44,36 @@
       // storing the snapshot.val() in a variable for convenience
       var sv = snapshot.val();
 
-      console.log(sv.val());
-      console.log(sv.val().trainName);
-      console.log(sv.val().destination);
-      console.log(sv.val().time);
-      console.log(sv.val().frequency);
+      console.log(sv);
+      console.log(sv.trainName);
+      console.log(sv.destination);
+      console.log(sv.time);
+      console.log(sv.frequency);
 
       // Change the HTML to reflect
-      $("#name-display").text(sv.val().trainName);
-      $("#email-display").text(sv.val().destination);
-      $("#age-display").text(sv.val().time);
-      $("#comment-display").text(sv.val().frequency);
+      $("#name-display").text(sv.trainName);
+      $("#email-display").text(sv.destination);
+      $("#age-display").text(sv.time);
+      $("#comment-display").text(sv.frequency);
 
+
+      // Create the new row
+      var newRow = $("<tr>").append(
+          $("<td>").text(trainName),
+          $("<td>").text(destination),
+          $("<td>").text(time),
+          $("<td>").text(frequency),
+          $("<td>").text(nextTrain),
+          $("<td>").text(tMinutesTillTrain)
+      );
+      // Append the new row to the table
+      $("#train-table > tbody").append(newRow);
 
       // Handle the errors
   }, function (errorObject) {
       console.log("Errors handled: " + errorObject.code);
+
   });
-
-
-
 
 
 
@@ -99,7 +111,7 @@
   // 5 + 3:16 = 3:21
 
   // Assumptions
-  var tFrequency = 3;
+  var tFrequency = 20;
 
   // Time is 3:30 AM
   var firstTime = "03:30";
