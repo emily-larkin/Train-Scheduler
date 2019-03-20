@@ -11,7 +11,6 @@
   firebase.initializeApp(config);
   var database = firebase.database();
 
-
   // Initial Values
   var trainName = "";
   var destination = "";
@@ -37,6 +36,12 @@
           frequency: frequency,
           dateAdded: firebase.database.ServerValue.TIMESTAMP
       });
+
+      // Clears all of the text-boxes
+      $("#train-name-input").val("");
+      $("#destination-input").val("");
+      $("#first-train-input").val("");
+      $("#frequency-input").val("");
   });
 
   // Firebase watcher .on("child_added"
@@ -50,18 +55,10 @@
       console.log(sv.time);
       console.log(sv.frequency);
 
-      // Change the HTML to reflect
-      $("#name-display").text(sv.trainName);
-      $("#email-display").text(sv.destination);
-      $("#age-display").text(sv.time);
-      $("#comment-display").text(sv.frequency);
-
-
       // Create the new row
       var newRow = $("<tr>").append(
           $("<td>").text(trainName),
           $("<td>").text(destination),
-          $("<td>").text(time),
           $("<td>").text(frequency),
           $("<td>").text(nextTrain),
           $("<td>").text(tMinutesTillTrain)
@@ -76,41 +73,6 @@
   });
 
 
-
-  // Assume the following situations.
-
-  // (TEST 1)
-  // First Train of the Day is 3:00 AM
-  // Assume Train comes every 3 minutes.
-  // Assume the current time is 3:16 AM....
-  // What time would the next train be...? (Use your brain first)
-  // It would be 3:18 -- 2 minutes away
-
-  // (TEST 2)
-  // First Train of the Day is 3:00 AM
-  // Assume Train comes every 7 minutes.
-  // Assume the current time is 3:16 AM....
-  // What time would the next train be...? (Use your brain first)
-  // It would be 3:21 -- 5 minutes away
-
-
-  // ==========================================================
-
-  // Solved Mathematically
-  // Test case 1:
-  // 16 - 00 = 16
-  // 16 % 3 = 1 (Modulus is the remainder)
-  // 3 - 1 = 2 minutes away
-  // 2 + 3:16 = 3:18
-
-  // Solved Mathematically
-  // Test case 2:
-  // 16 - 00 = 16
-  // 16 % 7 = 2 (Modulus is the remainder)
-  // 7 - 2 = 5 minutes away
-  // 5 + 3:16 = 3:21
-
-  // Assumptions
   var tFrequency = 20;
 
   // Time is 3:30 AM
