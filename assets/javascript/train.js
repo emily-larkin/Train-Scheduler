@@ -50,12 +50,6 @@
   database.ref().on("child_added", function (childSnapshot) {
       // storing the snapshot.val() in a variable for convenience
       var sv = childSnapshot.val();
-
-      console.log(sv);
-      console.log(sv.trainName);
-      console.log(sv.destination);
-      console.log(sv.time);
-      console.log(sv.frequency);
       
       var trainName2 = sv.name;
       var trainDestination2 = sv.destination;
